@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" >
+  <title>layui</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!--引入jquery-->
+  <script rel="stylesheet" type="text/javascript" src="../../js/jquery-3.4.1.js"></script>
+  <!--动态-->
+  <link rel="stylesheet" href="../../layui/css/layui.css">
+  <script src="../../layui/layui.js"></script>
+
+  <!--静态调试-->
+  <link rel="stylesheet" href="../../static/layui/css/layui.css">
+  <script src="../../static/layui/layui.js"></script>
+
+</head>
+<script>
+  $(document).ready(function () {
+
+  });
+</script>
+
+<body>
+<br/>
+<form class="layui-form layui-form-pane" action="">
+  <div class="layui-form-item">
+    <label class="layui-form-label">课程</label>
+    <div class="layui-input-inline">
+      <select  type="text" name="courseName" id="courseName" autocomplete="off" lay-verify="teacherName" placeholder="请选择课程"
+              class="layui-input">
+        <option value="" selected></option>
+      </select>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">专业</label>
+    <div class="layui-input-inline">
+      <select type="text" name="majorName" id="majorName" autocomplete="off" lay-verify="teacherName" placeholder="请选择专业"
+              class="layui-input">
+        <option value="" selected></option>
+      </select>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">班级</label>
+    <div class="layui-input-inline">
+      <select type="text" name="className" id="className" placeholder="请选择班级" lay-verify="teacherNum" autocomplete="off"
+              class="layui-input">
+        <option value="" selected></option>
+      </select>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">教师</label>
+    <div class="layui-input-inline">
+      <select type="text" name="teacherName" id="teacherName" placeholder="请选择教师" lay-verify="teacherNum" autocomplete="off"
+              class="layui-input">
+        <option value="" selected></option>
+      </select>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">周数</label>
+    <div class="layui-input-inline">
+      <input type="text" name="weeksSum" id="weeksSum" placeholder="请输入周数" lay-verify="teacherNum" autocomplete="off"
+             class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">每周学时</label>
+    <div class="layui-input-inline">
+      <input type="text" name="weeksNumber" id="weeksNumber" placeholder="请输入周数" lay-verify="teacherNum" autocomplete="off"
+             class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">学期</label>
+    <div class="layui-input-inline">
+      <select type="text" name="semester" id="semester" placeholder="请选择学期" lay-verify="teacherNum" autocomplete="off"
+             class="layui-input">
+        <option value="" selected></option>
+      </select>
+    </div>
+  </div>
+  <div class="layui-form-item layui-form-mid">
+    <div class="layui-form-item">
+    </div>
+    <button class="layui-btn" lay-submit="" style="position:absolute;left:150px;"
+            lay-filter="demo">确定</button>
+  </div>
+</form>
+
+<script>
+  //Integer id, String name, String phone ,Integer countLimit
+  //var myreg = /^(((13[0-9]{1})|(14[0-9]{1})|(17[0]{1})|(15[0-3]{1})|(15[5-9]{1})|(18[0-9]{1}))+\d{8})$/;
+  layui.use(['form', 'layedit', 'laydate'], function () {
+    getBadw();
+    let tag = window.location.href.split("=");
+    if (tag.length == 3 && tag[1] == "update") {
+      let id = window.location.href.split("=")[2];
+      var u = "http://localhost:8080/admin/classTask/find?id=" + id;
+      $.get(u, function (data, status) {
+        console.log(u)
+        var ret = JSON.parse(JSON.stringify(data));
+        if (ret.status == 1) {
+          alert(ret.msg);
+        } else {
+          $("#courseName").val(ret.data.courseName)
+          $("#majorName").val(ret.data.majorName)
+          $("#className").val(ret.data.className)
+          $("#teacherName").val(ret.data.teacherName)
+          $("#weeksSum").val(ret.data.weeksSum)
+          $("#weeksNumber").val(ret.data.weeksNumber)
+          $("#semester").val(ret.data.semester)
+        }
+      });
+    }
+    var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate;
+
+    //创建一个编辑器
+    var editIndex = layedit.build('LAY_demo_editor');
+
+    //自定义验证规则
+    var patrn = /^\+?[1-9][0-9]*$/;
+    var myreg = /^(((13[0-9]{1})|(14[0-9]{1})|(17[0]{1})|(15[0-3]{1})|(15[5-9]{1})|(18[0-9]{1}))+\d{8})$/;
+
+    form.verify({
+      studentName: function (value) {
+        if (value = null || value.length == 0) {
+          return '姓名不能为空';
+        }
+      }
+      , studentNum: function (value) {
+        if (value = null || value.length == 0||patrn.exec(value) == null) {
+          return '只能6位非空数字';
+        }
+      }
+      , studentPassword: function (value) {
+        // if (myreg.exec(value) == null) {
+        //     return '请输入正确密码';
+        // }
+      }
+      , content: function (value) {
+        layedit.sync(editIndex);
+      }
+    });
+    //监听提交
+    form.on('submit(demo)', function (data) {
+      //Integer id, String name, String phone ,Integer countLimit
+
+      var url;
+      if (tag.length == 2) {
+        url = "http://localhost:8080/admin/classTask/addClassTask?className=" + $("#className").val() +"&courseName="+$("#courseName").val()
+                +"&majorName="+$("#majorName").val()+"&weeksSum="+$("#weeksSum").val()+ "&teacherName="+$("#teacherName").val()+
+                "&weeksNumber="+$("#weeksNumber").val()+"&semester="+$("#semester").val();
+      } else if (tag.length == 3) {
+        let id = window.location.href.split("=")[2];
+        url = "http://localhost:8080/admin/classTask/updateClassTask?id=" + id +"&className="+$("#className").val() +"&courseName="+$("#courseName").val()
+                +"&majorName="+$("#majorName").val()+"&weeksSum="+$("#weeksSum").val()+ "&teacherName="+$("#teacherName").val()+
+                "&weeksNumber="+$("#weeksNumber").val()+"&semester="+$("#semester").val();
+      }
+      console.log(url)
+      var datas = JSON.parse(JSON.stringify(data.field));
+      $.get(url, function (data, status) {
+        var ret = JSON.parse(JSON.stringify(data));
+        if (ret.status == 1) {
+          layer.alert(ret.msg);
+        } else {
+          layer.alert(ret.msg);
+          window.parent.location.reload();//刷新父页面
+          var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+          parent.layer.close(index); //再执行关闭当前iframe页面
+          parent.location.reload();//刷新父页面
+        }
+
+      });
+      return false;
+    });
+
+  });
+
+  function getBadw() {
+    $.ajax({
+      url: '/admin/course/findAllCourses',   //后台数据地址
+      type:"get",
+      dataType:"json",
+      success: function (data) {
+        var array=data.data;
+        $.each(array,function (key,value) {   //循环后台返回的json数据
+          //new Option方法是新建一个option，第一个参数是需要显示的值，第二个参数是option的value值,然后append到下拉框中。
+          $('#courseName').append(new Option(value.courseName,value.courseName));
+        })
+        layui.form.render("select");
+      }
+    })
+    $.ajax({
+      url: '/admin/major/findAllMajors',   //后台数据地址
+      type:"get",
+      dataType:"json",
+      success: function (data) {
+        var array=data.data;
+        $.each(array,function (key,value) {   //循环后台返回的json数据
+          //new Option方法是新建一个option，第一个参数是需要显示的值，第二个参数是option的value值,然后append到下拉框中。
+          $('#majorName').append(new Option(value.majorName,value.majorName));
+        })
+        layui.form.render("select");
+      }
+    })
+    $.ajax({
+      url: '/admin/class/findAllClasses',   //后台数据地址
+      type:"get",
+      dataType:"json",
+      success: function (data) {
+        var array=data.data;
+        $.each(array,function (key,value) {   //循环后台返回的json数据
+          //new Option方法是新建一个option，第一个参数是需要显示的值，第二个参数是option的value值,然后append到下拉框中。
+          $('#className').append(new Option(value.className,value.className));
+        })
+        layui.form.render("select");
+      }
+    })
+    $.ajax({
+      url: '/teacher/findAllTeachers',   //后台数据地址
+      type:"get",
+      dataType:"json",
+      success: function (data) {
+        var array=data.data;
+        $.each(array,function (key,value) {   //循环后台返回的json数据
+          //new Option方法是新建一个option，第一个参数是需要显示的值，第二个参数是option的value值,然后append到下拉框中。
+          $('#teacherName').append(new Option(value.teacherName,value.teacherName));
+        })
+        layui.form.render("select");
+      }
+    })
+    $.ajax({
+      url: '/admin/classTask/findSemesters',   //后台数据地址
+      type:"get",
+      dataType:"json",
+      success: function (data) {
+        var array=data.data;
+        $.each(array,function (key,value) {   //循环后台返回的json数据
+          //new Option方法是新建一个option，第一个参数是需要显示的值，第二个参数是option的value值,然后append到下拉框中。
+          $('#semester').append(new Option(value.semesterName,value.semesterName));
+        })
+        layui.form.render("select");
+      }
+    })
+  }
+</script>
+
+</body>
+
+</html>

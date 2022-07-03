@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//OTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lab.coursescheduling.mapper.ClassMapper">
+    <resultMap id="map" type="com.lab.coursescheduling.bean.po.Class">
+        <id column="class_id" property="classId"></id>
+        <result column="class_num" property="classNum"></result>
+        <result column="class_name" property="className"></result>
+        <result column="major_num" property="majorNum"></result>
+    </resultMap>
+    <resultMap id="voMap" type="com.lab.coursescheduling.bean.vo.ClassVo">
+        <id column="class_id" property="classId"></id>
+        <result column="class_num" property="classNum"></result>
+        <result column="class_name" property="className"></result>
+        <result column="major_name" property="majorName"></result>
+    </resultMap>
+    <!--Boolean addClass(@Param("newClass") Class newClass);-->
+    <insert id="addClass">
+        insert into class_info (class_num, class_name, major_num)
+        values (#{newClass.classNum}, #{newClass.className}, #{newClass.majorNum})
+    </insert>
+    <!--Boolean deleteClass(Integer classId);-->
+    <delete id="deleteClass">
+        delete
+        from class_info
+        where class_id = #{classId}
+    </delete>
+    <!--Boolean updateClass(Integer classId,@Param("new Class") Class newClass);-->
+    <update id="updateClass">
+        update class_info
+        set class_num=#{newClass.classNum},
+            class_name=#{newClass.className},
+            major_num=#{newClass.majorNum}
+        where class_id = #{classId}
+    </update>
+    <!--Class getClass(String classNum);-->
+    <select id="getClass" resultType="com.lab.coursescheduling.bean.po.Class">
+        select *
+        from class_info
+        where class_num = #{classNum}
+    </select>
+    <!--    Class getClassByName(String className);-->
+    <select id="getClassByName" resultType="com.lab.coursescheduling.bean.po.Class">
+        select *
+        from class_info
+        where class_name = #{className}
+    </select>
+    <!--    List<ClassVo> listClasses();-->
+    <select id="listClasses" resultMap="voMap">
+        select c.class_id, c.class_num, c.class_name, m.major_name
+        from class_info c
+                 join major_info m on c.major_num = m.major_num
+    </select>
+    <!--    ClassVo getClassById(Integer classId);-->
+    <select id="getClassById" resultMap="voMap">
+        select c.class_id,c.class_num, c.class_name, m.major_name
+        from class_info c
+                 join major_info m on c.major_num = m.major_num
+        where c.class_id = #{classId}
+    </select>
+    <!--    List<Class> findAllClassByMajorNum();-->
+    <select id="findAllClassByMajorNum" resultType="com.lab.coursescheduling.bean.po.Class">
+        select * from class_info
+    </select>
+
+</mapper>

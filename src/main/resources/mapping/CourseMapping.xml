@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//OTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lab.coursescheduling.mapper.CourseMapper">
+    <resultMap id="map" type="com.lab.coursescheduling.bean.po.Course">
+        <id column="id" property="id"></id>
+        <result column="course_num" property="courseNum"></result>
+        <result column="course_name" property="courseName"></result>
+        <result column="course_attr" property="courseAttr"></result>
+    </resultMap>
+    <!--List<Course> listCourses();-->
+    <select id="listCourses" resultMap="map">
+        select *
+        from course_info
+    </select>
+    <!--    Boolean deleteCourse(Integer id);-->
+    <delete id="deleteCourse">
+        delete
+        from course_info
+        where id = #{id}
+    </delete>
+    <!--    Boolean updateCourse(Integer courseId,@Param("course") Course course);-->
+    <update id="updateCourse">
+        update course_info
+        set course_num=#{course.courseNum},
+            course_name=#{course.courseName}
+        where id=#{courseId}
+    </update>
+    <!--    Course findById(Integer courseId);-->
+    <select id="findById" resultMap="map">
+        select * from course_info where id=#{courseId}
+    </select>
+    <!--    Course findByNum(String courseNum);-->
+    <select id="findByNum" resultMap="map">
+        select * from course_info where course_num=#{courseNum}
+    </select>
+    <!--    Boolean addCourse(@Param("course") Course course);-->
+    <insert id="addCourse">
+        insert into course_info (course_num,course_name)
+        values(#{course.courseNum},#{course.courseName})
+    </insert>
+    <!--Course findByName(String courseName);-->
+    <select id="findByName" resultMap="map">
+        select *
+        from course_info
+        where course_name=#{courseName}
+    </select>
+
+</mapper>

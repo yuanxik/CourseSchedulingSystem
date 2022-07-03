@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//OTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lab.coursescheduling.mapper.UserMapper">
+    <select id="getUserByName" resultType="com.lab.coursescheduling.bean.po.User">
+        select id,name,password from s_user where name=#{name}
+    </select>
+    <select id="getUserById" resultType="com.lab.coursescheduling.bean.po.User">
+        select * from s_user where id=#{id}
+    </select>
+    <select id="checkUser" resultType="com.lab.coursescheduling.bean.po.User">
+        select * from user_info where user_name=#{username}
+    </select>
+</mapper>

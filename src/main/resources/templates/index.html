@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>课程管理系统-登录</title>
+    <!--引入jquery-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>-->
+    <script rel="stylesheet" type="text/javascript" src="../js/jquery-3.4.1.js"></script>
+    <!--动态-->
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../layui/layui.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/login.css">
+    <!--静态调试-->
+    <link rel="stylesheet" type="text/css" href="../static/layui/css/layui.css">
+    <script type="text/javascript" src="../static/layui/layui.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/login.css">
+
+</head>
+<body class="beg-login-bg">
+<div class="beg-login-box">
+    <header>
+        <h1>教学管理系统</h1>
+    </header>
+    <div class="beg-login-main">
+        <form class="layui-form" method="get" action="#">
+            <div class="layui-form-item">
+                <label class="beg-login-icon">
+                    <i class="layui-icon">&#xe612;</i>
+                </label>
+                <input type="text" id="userNum" lay-verify="required" name="userNum" autocomplete="off"
+                       placeholder="这里输入账号" class="layui-input" lay-verType="tips">
+            </div>
+            <div class="layui-form-item">
+                <label class="beg-login-icon">
+                    <i class="layui-icon">&#xe642;</i>
+                </label>
+                <input type="password" id="password" lay-verify="required" name="password" autocomplete="off"
+                       placeholder="这里输入密码" class="layui-input" lay-verType="tips">
+            </div>
+            <div class="layui-form-item">
+                <select class="layui-select" type="text" name="role" id="role" autocomplete="off"
+                        placeholder="请选择">
+                    <option value="1">用户</option>
+                    <option value="0">管理员</option>
+                </select>
+            </div>
+            <div class="layui-form-item">
+                <div class="beg-pull">
+                    <a id="login" class="layui-btn layui-btn-normal" style="width:100%;">登　　录</a>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="beg-pull">
+                    <a id="register" class="layui-btn layui-btn-normal" style="width:100%;">没有账号？点此注册</a>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <footer>
+        <p>power by 1811530214 </p>
+    </footer>
+</div>
+
+</body>
+<script>
+    layui.use(['form'], function () {
+
+    });
+    $(document).ready(function () {
+        $("#login").click(function () {
+            var userNum = $("#userNum").val();
+            var password = $("#password").val();
+            var role = $("#role").val();
+            if (userNum === "" || userNum == null) {
+                layer.msg("用户名不能为空");
+            } else if (password === "" || password == null) {
+                layer.msg("密码不能为空");
+            } else if (role === "" || role == null) {
+                layer.msg("请选择身份");
+            } else {
+                var url = "/admin/login?userNum=" + userNum + "&password=" + password + "&role=" + role;
+                $.get(url, function (res) {
+                    if (res.status === 1) {
+                        layer.msg(res.msg);
+                    } else {
+                        if (res.msg === "user") {
+                            window.location.href = ("/stu/stuInfo");
+                        } else if (res.msg==="stu"){
+                            window.location.href = ("/coursePlan/courseTable");
+                        }else if (res.msg==="teacher"){
+                            window.location.href=("/teacher/toOwnInfo");
+                        }
+                    }
+                })
+            }
+        })
+        $("#register").click(function () {
+            window.location.href=("/toRegister");
+        })
+    })
+</script>
+</html>

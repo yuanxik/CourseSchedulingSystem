@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>课程管理系统-登录</title>
+  <!--引入jquery-->
+  <script rel="stylesheet" type="text/javascript" src="../js/jquery-3.4.1.js"></script>
+  <!--动态-->
+  <link rel="stylesheet" href="../layui/css/layui.css">
+  <script src="../layui/layui.js"></script>
+  <link rel="stylesheet" type="text/css" href="../css/login.css">
+  <!--静态调试-->
+  <link rel="stylesheet" type="text/css" href="../static/layui/css/layui.css">
+  <script type="text/javascript" src="../static/layui/layui.js"></script>
+  <link rel="stylesheet" type="text/css" href="../static/css/login.css">
+
+</head>
+<body class="beg-login-bg">
+<div class="beg-login-box">
+  <header>
+    <h1>账号注册</h1>
+  </header>
+  <div class="beg-login-main">
+    <form class="layui-form" method="get" action="#">
+      <div class="layui-form-item">
+        <label class="beg-login-icon">
+          <i class="layui-icon">&#xe612;</i>
+        </label>
+        <input type="text" id="userNum" lay-verify="required" name="userNum" autocomplete="off"
+               placeholder="设置账号" class="layui-input" lay-verType="tips">
+      </div>
+      <div class="layui-form-item">
+        <label class="beg-login-icon">
+          <i class="layui-icon">&#xe612;</i>
+        </label>
+        <input type="text" id="userName" lay-verify="required" name="userName" autocomplete="off"
+               placeholder="输入姓名" class="layui-input" lay-verType="tips">
+      </div>
+      <div class="layui-form-item">
+        <label class="beg-login-icon">
+          <i class="layui-icon">&#xe642;</i>
+        </label>
+        <input type="password" id="password" lay-verify="required" name="password" autocomplete="off"
+               placeholder="设置密码" class="layui-input" lay-verType="tips">
+      </div>
+      <div class="layui-form-item">
+        <label class="beg-login-icon">
+          <i class="layui-icon">&#xe642;</i>
+        </label>
+        <input type="password" id="re_password" lay-verify="required" name="password" autocomplete="off"
+               placeholder="再次输入密码" class="layui-input" lay-verType="tips">
+      </div>
+      <div class="layui-form-item">
+        <select class="layui-select" type="text" name="role" id="role" autocomplete="off"
+                placeholder="请选择">
+          <option value="2">学生</option>
+          <option value="1">教师</option>
+        </select>
+        <!--                <input type="radio" name="role" value="超级管理员" id="role1"> 管理员-->
+        <!--                <input type="radio" name="role" value="普通用户" id="role2"> 用户-->
+      </div>
+      <div class="layui-form-item">
+        <div class="beg-pull">
+          <a id="register" class="layui-btn layui-btn-normal" style="width:100%;">注   册</a>
+        </div>
+      </div>
+    </form>
+
+  </div>
+  <footer>
+    <p>power by 1811530214 </p>
+  </footer>
+</div>
+
+</body>
+<script>
+  layui.use(['form'], function () {
+    getBadw();
+  });
+  $(document).ready(function () {
+    $("#register").click(function () {
+      var userNum = $("#userNum").val();
+      var userName=$("#userName").val();
+      var password = $("#password").val();
+      var re_password=$("#re_password").val();
+      var role = $("#role").val();
+      if (userNum === "" || userNum == null) {
+        layer.msg("用户名不能为空。");
+      }else if(userName===""||userName==null){
+        layer.msg("姓名不能为空。");
+      } else if (password === "" || password == null) {
+        layer.msg("密码不能为空。");
+      } else if(password!==re_password){
+        layer.msg("密码不一致。")
+      }else if (role === "" || role == null) {
+        layer.msg("请选择身份。");
+      } else {
+        var url="/register?num="+userNum+"&name="+userName+"&password="+password+"&role="+role;
+        $.get(url, function (res) {
+          if (res.status === 1) {
+            layer.msg(res.msg);
+          } else {
+            layer.msg(res.msg);
+          }
+        })
+      }
+    })
+
+  })
+</script>
+</html>

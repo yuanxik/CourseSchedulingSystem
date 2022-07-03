@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//OTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lab.coursescheduling.mapper.TeacherCourseMapper">
+    <!--Boolean addTeacherCourse(CoursePlan coursePlan);-->
+    <insert id="addTeacherCourse" parameterType="com.lab.coursescheduling.bean.po.CoursePlan">
+        insert into teacher_course
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="teacherNum!=null">teacher_num,</if>
+                <if test="courseNum!=null">course_num,</if>
+                <if test="classNum!=null">class_num,</if>
+                <if test="classTime!=null">classTime</if>
+            </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="teacherNum!=null">#{teacherNum},</if>
+            <if test="courseNum!=null">#{courseNum},</if>
+            <if test="classNum!=null">#{classNum},</if>
+            <if test="classTime!=null">#{classTime}</if>
+        </trim>
+    </insert>
+</mapper>

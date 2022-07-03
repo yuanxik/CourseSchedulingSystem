@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//OTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lab.coursescheduling.mapper.StudentMapper">
+    <resultMap id="map" type="com.lab.coursescheduling.bean.vo.StudentVo">
+        <id column="student_id" property="studentId"></id>
+        <result column="student_num" property="studentNum"></result>
+        <result column="student_name" property="studentName"></result>
+        <result column="student_password" property="studentPassword"></result>
+        <result column="role" property="role"></result>
+        <result column="major_name" property="majorName"></result>
+        <result column="class_name" property="className"></result>
+    </resultMap>
+    <!--Student getStudentByNum(String studentNum);-->
+    <select id="getStudentByNum" resultType="com.lab.coursescheduling.bean.po.Student">
+        select *
+        from student_info
+        where student_num = #{studentNum}
+    </select>
+    <!--    Boolean addStu(@Param("student")Student student);-->
+    <insert id="addStu">
+        insert into student_info (student_num, student_name, student_password, class_num, major_num)
+        values (#{student.studentNum}, #{student.studentName}, #{student.studentPassword}, #{student.classNum},
+                #{student.majorNum});
+    </insert>
+    <!--Boolean addStuByList(@Param("stus") List<Student> stus);-->
+    <insert id="addStuByList">
+        <foreach collection="stus" item="stu" separator=";">
+        insert into student_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="#{stu.studentNum}!=null">student_num,</if>
+            <if test="#{stu.studentName}!=null">student_name,</if>
+            <if test="#{stu.studentPassword}!=null">student_password,</if>
+            <if test="#{stu.classNum}!=null">class_num,</if>
+            <if test="#{stu.majorNum}!=null">major_num</if>
+        </trim>
+        values
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="#{stu.studentNum}!=null">#{stu.studentNum},</if>
+                <if test="#{stu.studentName}!=null">#{stu.studentName},</if>
+                <if test="#{stu.studentPassword}!=null">#{stu.studentPassword},</if>
+                <if test="#{stu.classNum}!=null">#{stu.classNum},</if>
+                <if test="#{stu.majorNum}!=null">#{stu.majorNum}</if>
+            </trim>
+        </foreach>
+    </insert>
+    <!--List<StudentVo> selectAll();-->
+    <select id="selectAll" resultMap="map">
+        select s.student_id,s.student_num,s.student_name,s.student_password,m.major_name,c.class_name
+        from student_info s
+        left join major_info m  on  s.major_num=m.major_num
+        left join class_info c  on  s.class_num=c.class_num
+    </select>
+    <!--Boolean updateStuInfo(Integer studentId,@Param("newStu") Student newStu);-->
+    <update id="updateStuInfo">
+        update student_info
+        set student_num=#{newStu.studentNum},
+            student_Name=#{newStu.studentName},
+            student_password=#{newStu.studentPassword},
+            class_num=#{newStu.classNum},
+            major_num=#{newStu.majorNum}
+        where student_id = #{studentId}
+    </update>
+    <!--   Boolean deleteStu(Long studentId);-->
+    <delete id="deleteStu">
+        delete
+        from student_info
+        where student_id = #{studentId}
+    </delete>
+    <!-- Student find(Integer studentId);-->
+    <select id="find" resultType="com.lab.coursescheduling.bean.po.Student">
+        select * from student_info where student_id=#{studentId}
+    </select>
+    <!--    Student findByNum(String studentNum);-->
+    <select id="findByNum" resultType="com.lab.coursescheduling.bean.po.Student">
+        select * from student_info where student_num=#{studentNum}
+    </select>
+    <!--Boolean updatePassword(String studentNum, String password);-->
+    <update id="updatePassword">
+        update student_info
+            set student_password=#{password}
+        where student_num=#{studentNum}
+    </update>
+</mapper>

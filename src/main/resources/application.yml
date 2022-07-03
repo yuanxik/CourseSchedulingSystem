@@ -1,0 +1,37 @@
+Spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/courseScheduling?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone = GMT%2B8&allowPublicKeyRetrieval=true&allowMultiQueries=true
+    username: root
+    password: nimeishao11@@
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+  web:
+    resources:
+      static-locations: classpath:/resources/,classpath:/static/,classpath:/templates/
+
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+  type-aliases-package: com.lab.coursescheduling.bean
+  configuration:
+    call-setters-on-nulls: true #设置返回字段不为空，前端不报错
+    map-underscore-to-camel-case: true  #驼峰命名
+
+logging:
+  level:
+    root: info
+  file:
+    path: log/courseSchedule.log
+
+pagehelper:
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+  helper-dialect: mysql
+
+

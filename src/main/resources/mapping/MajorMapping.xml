@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//OTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lab.coursescheduling.mapper.MajorMapper">
+    <!--    Boolean addMajor(@Param("newMajor") Major newMajor);-->
+    <insert id="addMajor" parameterType="com.lab.coursescheduling.bean.po.Major">
+        insert into major_info(major_num, major_name)
+        values (#{newMajor.majorNum}, #{newMajor.majorName})
+    </insert>
+    <!--  Boolean deleteMajor(Integer majorId);-->
+    <delete id="deleteMajor">
+        delete
+        from major_info
+        where major_id = #{majorId}
+    </delete>
+    <!--Boolean updateMajor(Integer majorId,@Param("major")Major major);-->
+    <update id="updateMajor">
+        update major_info
+        set major_num=#{major.majorNum},
+            major_name=#{major.majorName}
+        where major_id = #{majorId}
+    </update>
+    <!--    Major getMajorById(Integer majorId);-->
+    <select id="getMajorById" resultType="com.lab.coursescheduling.bean.po.Major">
+        select *
+        from major_info
+        where major_id = #{majorId}
+    </select>
+    <!--    Major getMajorByNum(String majorNum);-->
+    <select id="getMajorByNum" resultType="com.lab.coursescheduling.bean.po.Major">
+        select *
+        from major_info
+        where major_num = #{majorNum}
+    </select>
+    <!--    Major getMajorByName(String majorName);-->
+    <select id="getMajorByName" resultType="com.lab.coursescheduling.bean.po.Major">
+        select *
+        from major_info
+        where major_name = #{majorName}
+    </select>
+    <!--    List<Major> findAll();-->
+    <select id="findAll" resultType="com.lab.coursescheduling.bean.po.Major">
+        select  * from major_info
+    </select>
+</mapper>

@@ -1,0 +1,29 @@
+2022-07-02 10:19:34.906  INFO 8260 --- [restartedMain] c.l.c.CourseSchedulingApplication        : Starting CourseSchedulingApplication using Java 1.8.0_181 on LAPTOP-649QF60J with PID 8260 (E:\IDEA\IdeaProjects\course-scheduling\target\classes started by lenovo in E:\IDEA\IdeaProjects\course-scheduling)
+2022-07-02 10:19:34.977  INFO 8260 --- [restartedMain] c.l.c.CourseSchedulingApplication        : No active profile set, falling back to 1 default profile: "default"
+2022-07-02 10:19:35.112  INFO 8260 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-07-02 10:19:35.113  INFO 8260 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-07-02 10:19:37.388  INFO 8260 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-07-02 10:19:37.418  INFO 8260 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 20 ms. Found 0 JPA repository interfaces.
+2022-07-02 10:19:38.573  INFO 8260 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-07-02 10:19:38.587  INFO 8260 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-07-02 10:19:38.588  INFO 8260 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.58]
+2022-07-02 10:19:39.042  INFO 8260 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-07-02 10:19:39.042  INFO 8260 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3902 ms
+2022-07-02 10:19:39.386  INFO 8260 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-07-02 10:19:39.515  INFO 8260 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.5.Final
+2022-07-02 10:19:40.204  INFO 8260 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-07-02 10:19:40.442  INFO 8260 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-07-02 10:19:41.927  INFO 8260 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-07-02 10:19:41.958  INFO 8260 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-07-02 10:19:42.444  INFO 8260 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-07-02 10:19:42.461  INFO 8260 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-07-02 10:19:43.792  WARN 8260 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-07-02 10:19:44.430  INFO 8260 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [templates/index.html]
+2022-07-02 10:19:44.899  INFO 8260 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-07-02 10:19:45.066  INFO 8260 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-07-02 10:19:45.121  INFO 8260 --- [restartedMain] c.l.c.CourseSchedulingApplication        : Started CourseSchedulingApplication in 11.319 seconds (JVM running for 15.279)
+2022-07-02 10:19:54.368  INFO 8260 --- [http-nio-8080-exec-1] o.apache.tomcat.util.http.parser.Cookie  : A cookie header was received [Hm_lvt_1921ad20f22c8ea3cfe84f10605e9d29=1653917708,1653921373,1653921992,1653923302] that contained an invalid cookie. That cookie will be ignored.
+ Note: further occurrences of this error will be logged at DEBUG level.
+2022-07-02 10:19:54.480  INFO 8260 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-07-02 10:19:54.481  INFO 8260 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-07-02 10:19:54.485  INFO 8260 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms

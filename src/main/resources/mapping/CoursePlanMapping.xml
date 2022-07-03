@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//OTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lab.coursescheduling.mapper.CoursePlanMapper">
+    <!--Boolean addCoursePlans(CoursePlan coursePlan);-->
+    <insert id="addCoursePlans" parameterType="com.lab.coursescheduling.bean.po.CoursePlan">
+        insert into course_plan
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="semester!=null">semester,</if>
+            <if test="majorNum!=null">major_num,</if>
+            <if test="classNum!=null">class_num,</if>
+            <if test="courseNum!=null">course_num,</if>
+            <if test="teacherNum!=null">teacher_num,</if>
+            <if test="classTime!=null">classTime,</if>
+            <if test="weeksSum!=null">weeksSum</if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="semester!=null">#{semester},</if>
+            <if test="majorNum!=null">#{majorNum},</if>
+            <if test="classNum!=null">#{classNum},</if>
+            <if test="courseNum!=null">#{courseNum},</if>
+            <if test="teacherNum!=null">#{teacherNum},</if>
+            <if test="classTime!=null">#{classTime},</if>
+            <if test="weeksSum!=null">#{weeksSum}</if>
+        </trim>
+    </insert>
+    <!-- Boolean updateCoursePlan(ClassTask classTask);-->
+    <update id="updateCoursePlan" parameterType="com.lab.coursescheduling.bean.po.ClassTask">
+        update course_plan
+        set semester=#{semester},
+            weeksSum=#{weeksSum}
+        where major_num = #{majorNum}
+          and class_num = #{classNum}
+          and course_num = #{courseNum}
+          and teacher_num = #{teacherNum}
+    </update>
+    <!--       List<CoursePlan> findAll();-->
+    <select id="findAll" resultType="com.lab.coursescheduling.bean.po.CoursePlan">
+        select * from course_plan
+    </select>
+    <!--    Integer getTotalByTableName(@Param("tableName")String tableName);-->
+    <select id="getTotalByTableName" resultType="java.lang.Integer">
+        select count(*) from ${tableName}
+    </select>
+    <!--  List<String> selectParamByColumn(@Param("column") String column);-->
+    <select id="selectParamByColumn" resultType="java.lang.String">
+        select distinct ${column} from course_plan
+    </select>
+    <!--    List<CoursePlan> findAllCoursePlanBySemester(String semester);-->
+    <select id="findAllCoursePlanBySemester" resultType="com.lab.coursescheduling.bean.po.CoursePlan">
+        select * from course_plan where semester=#{semester}
+    </select>
+    <!--List<String> findAllClassTime();-->
+    <select id="findAllClassTime" resultType="java.lang.String">
+        select classTime from course_plan
+    </select>
+</mapper>

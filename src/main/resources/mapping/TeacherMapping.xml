@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//OTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lab.coursescheduling.mapper.TeacherMapper">
+    <resultMap id="map" type="com.lab.coursescheduling.bean.po.Teacher">
+        <id column="teacher_id" property="teacherId"></id>
+        <result column="teacher_num" property="teacherNum"></result>
+        <result column="teacher_name" property="teacherName"></result>
+        <result column="teacher_password" property="teacherPassword"></result>
+        <result column="role" property="role"></result>
+    </resultMap>
+    <select id="checkTeacherByNameAndPassword" resultType="com.lab.coursescheduling.bean.po.Teacher">
+        select *
+        from teacher_info
+        where teacher_name = #{teacherNum}
+          and teacher_password = #{teacherPassword}
+    </select>
+
+    <!--Boolean addTeacher(Teacher newTeacher); -->
+    <insert id="addTeacher">
+        insert into teacher_info (teacher_num, teacher_password, teacher_name,role)
+        values (#{newTeacher.teacherNum}, #{newTeacher.teacherPassword}, #{newTeacher.teacherName},#{newTeacher.role})
+    </insert>
+    <!--Boolean deleteTeacher(String teacherId);-->
+    <delete id="deleteTeacher">
+        delete
+        from teacher_info
+        where teacher_id = #{teacherId}
+    </delete>
+    <!--Integer del(Integer teacherId);-->
+    <delete id="del">
+        delete
+        from teacher_info
+        where teacher_id = #{teacherId}
+    </delete>
+    <!--Boolean updateTeacher(String teacherId,Teacher teacher);-->
+    <update id="updateTeacher">
+        update teacher_info
+        set teacher_num=#{teacher.teacherNum},
+            teacher_name=#{teacher.teacherName},
+            teacher_password=#{teacher.teacherPassword},
+            role=#{teacher.role}
+        where teacher_id = #{teacherId}
+    </update>
+    <!-- Teacher getTeacher(Long teacherNum);-->
+    <select id="getTeacher" resultType="com.lab.coursescheduling.bean.po.Teacher">
+        select *
+        from teacher_info
+        where teacher_num = #{teacherNum}
+    </select>
+    <!--List<Teacher> listTeachers();-->
+    <select id="listTeachers" resultMap="map">
+        select *
+        from teacher_info
+    </select>
+    <!--Long getCount(@Param("tableName")String tableName);-->
+    <select id="getCount" resultType="java.lang.Long">
+        select count(*) from ${tableName}
+    </select>
+    <!--Teacher findTeacher(Integer id);-->
+    <select id="findTeacher" resultMap="map">
+        select * from teacher_info where teacher_id=#{id}
+    </select>
+    <!--Teacher getTeacherByName(String teacherName);-->
+    <select id="getTeacherByName" resultType="com.lab.coursescheduling.bean.po.Teacher">
+        select * from teacher_info where teacher_name=#{teacherName}
+    </select>
+</mapper>

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//OTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lab.coursescheduling.mapper.ClassTaskMapper">
+    <resultMap id="classTask" type="com.lab.coursescheduling.bean.po.ClassTask">
+        <id column="id" property="id"></id>
+        <result column="semester" property="semester"></result>
+        <result column="majorNum" property="major_num"></result>
+        <result column="classNum" property="class_num"></result>
+        <result column="courseNum" property="course_num"></result>
+        <result column="teacherNum" property="teacher_num"></result>
+        <result column="courseAttr" property="courseAttr"></result>
+        <result column="studentNumber" property="studentNumber"></result>
+        <result column="weeksSum" property="weeksSum"></result>
+        <result column="weeksNumber" property="weeksNumber"></result>
+        <result column="classTime" property="classTime"></result>
+        <result column="isFix" property="isFix"></result>
+    </resultMap>
+    <resultMap id="classTaskVoMap" type="com.lab.coursescheduling.bean.vo.ClassTaskVo">
+        <id column="id" property="id"></id>
+        <result column="course_name" property="courseName"></result>
+        <result column="major_name" property="majorName"></result>
+        <result column="class_name" property="className"></result>
+        <result column="teacher_name" property="teacherName"></result>
+        <result column="weeksSum" property="weeksSum"></result>
+        <result column="weeksNumber" property="weeksNumber"></result>
+        <result column="semester" property="semester"></result>
+    </resultMap>
+    <!--List<ClassTask> listClassTasks();-->
+    <select id="listClassTasks" resultMap="classTask">
+        select *
+        from class_task
+    </select>
+    <!--List<ClassTask> selectTaskBySemester(String semester);-->
+    <select id="selectTaskBySemester" resultMap="classTask" parameterType="com.lab.coursescheduling.bean.po.ClassTask">
+        select *
+        from class_task
+        where semester = #{semester}
+    </select>
+    <!--List<String> selectParamByColumn(@Param("column") String column);-->
+    <select id="selectParamByColumn" resultType="java.lang.String" parameterType="java.lang.String">
+        select distinct ${column}
+        from class_task
+    </select>
+    <!--Boolean addClassTask(ClassTask classTask);-->
+    <insert id="addClassTask" parameterType="com.lab.coursescheduling.bean.po.ClassTask">
+        insert into class_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="semester!=null">
+                semester,
+            </if>
+            <if test="majorNum!=null">
+                major_num,
+            </if>
+            <if test="classNum!=null">
+                class_num,
+            </if>
+            <if test="courseNum!=null">
+                course_num,
+            </if>
+            <if test="teacherNum!=null">
+                teacher_num,
+            </if>
+            <if test="courseAttr!=null">
+                courseAttr,
+            </if>
+            <if test="studentNumber!=null">
+                studentNumber,
+            </if>
+            <if test="weeksSum!=null">
+                weeksSum,
+            </if>
+            <if test="weeksNumber!=null">
+                weeksNumber,
+            </if>
+            <if test="classTime!=null">
+                classTime,
+            </if>
+            <if test="isFix!=null">
+                isFix
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="semester!=null">
+                #{semester},
+            </if>
+            <if test="majorNum!=null">
+                #{majorNum},
+            </if>
+            <if test="classNum!=null">
+                #{classNum},
+            </if>
+            <if test="courseNum!=null">
+                #{courseNum},
+            </if>
+            <if test="teacherNum!=null">
+                #{teacherNum},
+            </if>
+            <if test="courseAttr!=null">
+                #{courseAttr},
+            </if>
+            <if test="studentNumber!=null">
+                #{studentNumber},
+            </if>
+            <if test="weeksSum!=null">
+                #{weeksSum},
+            </if>
+            <if test="weeksNumber!=null">
+                #{weeksNumber},
+            </if>
+            <if test="classTime!=null">
+                #{classTime},
+            </if>
+            <if test="isFix!=null">
+                #{isFix}
+            </if>
+        </trim>
+    </insert>
+    <!--Boolean deleteClassTask(Integer id);-->
+    <delete id="deleteClassTask">
+        delete
+        from class_task
+        where id = #{id}
+    </delete>
+    <!--List<ClassTaskVo> findAll();-->
+    <select id="findAll" resultMap="classTaskVoMap">
+        select ct.id,
+               c.course_name,
+               m.major_name,
+               ci.class_name,
+               t.teacher_name,
+               ct.weeksSum,
+               ct.weeksNumber,
+               ct.semester
+        from class_task ct
+                 join course_info c on ct.course_num = c.course_num
+                 join major_info m on ct.major_num = m.major_num
+                 join class_info ci on ct.class_num = ci.class_num
+                 join teacher_info t on ct.teacher_num = t.teacher_num
+    </select>
+    <!--    ClassTaskVo find(Integer id);-->
+    <select id="find" resultMap="classTaskVoMap">
+        select ct.id,
+               c.course_name,
+               m.major_name,
+               ci.class_name,
+               t.teacher_name,
+               ct.weeksSum,
+               ct.weeksNumber,
+               ct.semester
+        from class_task ct
+                 join course_info c on ct.course_num = c.course_num
+                 join major_info m on ct.major_num = m.major_num
+                 join class_info ci on ct.class_num = ci.class_num
+                 join teacher_info t on ct.teacher_num = t.teacher_num
+        where ct.id = #{id}
+    </select>
+    <!--    Boolean updateClassTask(Integer id,ClassTask classTask);-->
+    <update id="updateClassTask">
+        update class_task
+        set course_num=#{classTask.courseNum},
+            major_num=#{classTask.majorNum},
+            class_num=#{classTask.classNum},
+            teacher_num=#{classTask.teacherNum},
+            weeksSum=#{classTask.weeksSum},
+            weeksNumber=#{classTask.weeksNumber},
+            semester=#{classTask.semester}
+        where id = #{id}
+    </update>
+    <!--ClassTask selectRepeat(@Param("classTask") ClassTask classTask);-->
+    <select id="selectRepeat" resultMap="classTask">
+        select *
+        from class_task
+        where course_num = #{classTask.courseNum}
+          and major_num = #{classTask.majorNum}
+          and class_num = #{classTask.classNum}
+          and teacher_num = #{classTask.teacherNum}
+          and semester=#{classTask.semester}
+    </select>
+
+</mapper>

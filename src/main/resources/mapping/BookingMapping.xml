@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//OTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lab.coursescheduling.mapper.BookingMapper">
+    <resultMap id="map" type="com.lab.coursescheduling.bean.po.Booking">
+        <id property="id" column="id"></id>
+        <result property="studentNum" column="student_num"></result>
+        <result property="classTime" column="classTime"></result>
+        <result property="date" column="date"></result>
+    </resultMap>
+    <!--List<Booking> findAll();-->
+    <select id="findAll" resultMap="map">
+        select *
+        from booking_info
+    </select>
+    <!--Boolean deleteBookingInfo(LocalDate date,String classTime,String studentNum);-->
+    <delete id="deleteBookingInfo">
+        delete
+        from booking_info
+        where date = #{date}
+          and classTime = #{classTime}
+          and student_num = #{studentNum}
+    </delete>
+    <!--List<Booking> findAllOwnBooking(String studentNum);-->
+    <select id="findAllOwnBooking" resultMap="map">
+        select *
+        from booking_info
+        where student_num = #{studentNum}
+    </select>
+    <!--BookingTime findOne(LocalDate date,String classTime);-->
+    <select id="findOne" resultType="com.lab.coursescheduling.bean.po.BookingTime">
+        select *
+        from bookingTime_info
+        where date =#{date}
+          and classTime=#{classTime}
+    </select>
+    <!--Boolean addOne(@Param("bookingTime") BookingTime bookingTime);-->
+    <insert id="addOne">
+        insert into bookingTime_info
+        values (null, #{bookingTime.date}, #{bookingTime.classTime}, #{bookingTime.studentNumber},
+                #{bookingTime.isAllow})
+    </insert>
+    <!--    Boolean banBookingTime(LocalDate date, String classTime);-->
+    <update id="banBookingTime">
+        update bookingTime_info
+        set isAllow=0,
+            studentNumber=0
+        where date =#{date}
+          and classTime=#{classTime}
+    </update>
+    <!--Boolean allowBookingTime(LocalDate date, String classTime);-->
+    <update id="allowBookingTime">
+        update bookingTime_info
+        set isAllow=1
+        where date =#{date}
+          and classTime=#{classTime}
+    </update>
+    <!-- Boolean booking(LocalDate date, String classTime,String studentNum);-->
+    <insert id="booking">
+        insert into booking_info
+        values (null, #{studentNum}, #{classTime}, #{date})
+    </insert>
+    <!--Boolean updateBookingTime(LocalDate date, String classTime,Integer flag);-->
+    <update id="updateBookingTime">
+        update bookingTime_info
+        <if test="flag==1">
+            set studentNumber=studentNumber + 1
+        </if>
+        <if test="flag==0">
+            set studentNumber=studentNumber - 1
+        </if>
+        where date =#{date}
+        and classTime=#{classTime}
+    </update>
+    <!--Booking getBookingInfo(String date, String classTime, String studentNum);-->
+    <select id="getBookingInfo" resultMap="map">
+        select *
+        from booking_info
+        where date = #{date}
+          and classTime = #{classTime}
+          and student_num = #{studentNum}
+    </select>
+    <!--Boolean cannelBooking(LocalDate date, String classTime, String studentNum);-->
+    <delete id="cannelBooking">
+        delete
+        from booking_info
+        where date = #{date}
+          and classTime = #{classTime}
+          and student_num = #{studentNum}
+    </delete>
+    <!--Boolean deleteBookingInfoByDateAndClassTime(LocalDate date, String classTime);-->
+    <delete id="deleteBookingInfoByDateAndClassTime">
+        delete
+        from booking_info
+        where date =#{date}
+          and classTime=#{classTime}
+    </delete>
+    <!--List<Booking> findAllByDateAndClassTime(LocalDate date, String classTime);-->
+    <select id="findAllByDateAndClassTime" resultMap="map">
+        select *
+        from booking_info
+        where date =#{date}
+          and classTime=#{classTime}
+    </select>
+</mapper>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>layui</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!--引入jquery-->
+  <script rel="stylesheet" type="text/javascript" src="../../js/jquery-3.4.1.js"></script>
+  <!--动态-->
+  <link rel="stylesheet" href="../../layui/css/layui.css">
+  <script src="../../layui/layui.js"></script>
+
+  <!--静态调试-->
+  <link rel="stylesheet" href="../../static/layui/css/layui.css">
+  <script src="../../static/layui/layui.js"></script>
+
+</head>
+<script>
+  $(document).ready(function () {
+
+  });
+</script>
+
+<body>
+<br/>
+<form class="layui-form layui-form-pane" action="">
+  <div class="layui-form-item">
+    <label class="layui-form-label">编号</label>
+    <div class="layui-input-inline">
+      <input type="text" name="courseNum" id="courseNum" autocomplete="off" lay-verify="teacherName" placeholder="请输入课程编号"
+             class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">名称</label>
+    <div class="layui-input-inline">
+      <input type="text" name="courseName" id="courseName" placeholder="请输入课程名" lay-verify="teacherNum" autocomplete="off"
+             class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item layui-form-mid">
+    <div class="layui-form-item">
+    </div>
+    <button class="layui-btn" lay-submit="" style="position:absolute;left:150px;"
+            lay-filter="demo">确定</button>
+  </div>
+</form>
+
+<script>
+  //Integer id, String name, String phone ,Integer countLimit
+  //var myreg = /^(((13[0-9]{1})|(14[0-9]{1})|(17[0]{1})|(15[0-3]{1})|(15[5-9]{1})|(18[0-9]{1}))+\d{8})$/;
+  layui.use(['form', 'layedit', 'laydate'], function () {
+    let tag = window.location.href.split("=");
+    if (tag.length == 3 && tag[1] == "update") {
+      let id = window.location.href.split("=")[2];
+      var u = "http://localhost:8080/admin/course/find?courseId=" + id;
+      $.get(u, function (data, status) {
+        console.log(u)
+        var ret = JSON.parse(JSON.stringify(data));
+        if (ret.status == 1) {
+          alert(ret.msg);
+        } else {
+          $("#courseNum").val(ret.data.courseNum)
+          $("#courseName").val(ret.data.courseName)
+
+        }
+      });
+    }
+    var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate;
+
+    //创建一个编辑器
+    var editIndex = layedit.build('LAY_demo_editor');
+
+    //自定义验证规则
+    var patrn = /^\+?[1-9][0-9]*$/;
+    var myreg = /^(((13[0-9]{1})|(14[0-9]{1})|(17[0]{1})|(15[0-3]{1})|(15[5-9]{1})|(18[0-9]{1}))+\d{8})$/;
+
+    form.verify({
+      studentName: function (value) {
+        if (value = null || value.length == 0) {
+          return '姓名不能为空';
+        }
+      }
+      , studentNum: function (value) {
+        if (value = null || value.length == 0||patrn.exec(value) == null) {
+          return '只能6位非空数字';
+        }
+      }
+      , studentPassword: function (value) {
+        // if (myreg.exec(value) == null) {
+        //     return '请输入正确密码';
+        // }
+      }
+      , content: function (value) {
+        layedit.sync(editIndex);
+      }
+    });
+    //监听提交
+    form.on('submit(demo)', function (data) {
+      //Integer id, String name, String phone ,Integer countLimit
+
+      var url;
+      if (tag.length == 2) {
+        url = "http://localhost:8080/admin/course/addCourse?courseName=" + $("#courseName").val() + "&courseNum=" + $("#courseNum").val() ;
+      } else if (tag.length == 3) {
+        let id = window.location.href.split("=")[2];
+        url = "http://localhost:8080/admin/course/updateCourse?courseId=" + id + "&courseName=" + $("#courseName").val() +
+                "&courseNum=" + $("#courseNum").val();
+      }
+      console.log(url)
+      var datas = JSON.parse(JSON.stringify(data.field));
+      $.get(url, function (data, status) {
+        var ret = JSON.parse(JSON.stringify(data));
+        if (ret.status == 1) {
+          layer.alert(ret.msg);
+        } else {
+          layer.alert(ret.msg);
+          window.parent.location.reload();//刷新父页面
+          var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+          parent.layer.close(index); //再执行关闭当前iframe页面
+          parent.location.reload();//刷新父页面
+        }
+
+      });
+      return false;
+    });
+  });
+</script>
+
+</body>
+
+</html>
